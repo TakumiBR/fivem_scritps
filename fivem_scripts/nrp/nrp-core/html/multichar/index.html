@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nação RP - Multicharacter</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app" class="hidden">
+        <!-- Background Overlay -->
+        <div class="background-overlay"></div>
+        
+        <!-- Main Container -->
+        <div class="multichar-container">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-crown"></i>
+                    <h1 id="serverName">NAÇÃO ROLEPLAY</h1>
+                </div>
+                <p class="subtitle">Escolha seu personagem</p>
+            </div>
+            
+            <!-- Characters Grid -->
+            <div class="characters-grid" id="charactersGrid">
+                <!-- Character slots will be dynamically inserted here -->
+            </div>
+            
+            <!-- Character Info Panel (shown when character is selected) -->
+            <div class="character-info-panel hidden" id="characterInfoPanel">
+                <div class="info-header">
+                    <h2 id="charName">Nome do Personagem</h2>
+                    <button class="btn-delete" id="btnDelete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                
+                <div class="info-content">
+                    <div class="info-row">
+                        <span class="label"><i class="fas fa-id-card"></i> Nome Completo:</span>
+                        <span class="value" id="charFullName">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label"><i class="fas fa-venus-mars"></i> Gênero:</span>
+                        <span class="value" id="charGender">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label"><i class="fas fa-calendar"></i> Data de Nascimento:</span>
+                        <span class="value" id="charDob">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label"><i class="fas fa-flag"></i> Nacionalidade:</span>
+                        <span class="value" id="charNationality">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label"><i class="fas fa-dollar-sign"></i> Dinheiro:</span>
+                        <span class="value" id="charMoney">R$ 0,00</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label"><i class="fas fa-briefcase"></i> Emprego:</span>
+                        <span class="value" id="charJob">Desempregado</span>
+                    </div>
+                </div>
+                
+                <div class="info-actions">
+                    <button class="btn-cancel" id="btnCancel">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button class="btn-play" id="btnPlay">
+                        <i class="fas fa-play"></i> JOGAR
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Footer Actions -->
+            <div class="footer-actions">
+                <button class="btn-create" id="btnCreate" style="display: none;">
+                    <i class="fas fa-plus"></i> Criar Novo Personagem
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

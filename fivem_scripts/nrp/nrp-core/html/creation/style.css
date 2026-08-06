@@ -1,0 +1,311 @@
+/* NRP Character Creation UI - Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    background: transparent;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.95) 0%, rgba(20, 20, 40, 0.9) 100%);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+.creation-container {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 40px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.logo i {
+    font-size: 2.5em;
+    color: #f39c12;
+    text-shadow: 0 0 20px rgba(243, 156, 18, 0.5);
+}
+
+.logo h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.subtitle {
+    font-size: 1.1em;
+    color: #a0a0a0;
+    letter-spacing: 2px;
+}
+
+/* Form Wrapper */
+.form-wrapper {
+    background: linear-gradient(145deg, rgba(30, 30, 50, 0.95) 0%, rgba(20, 20, 40, 0.98) 100%);
+    border: 2px solid rgba(243, 156, 18, 0.3);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.95em;
+    color: #a0a0a0;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-group label i {
+    color: #f39c12;
+}
+
+.form-group input[type="text"],
+.form-group select {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #f39c12;
+    box-shadow: 0 0 15px rgba(243, 156, 18, 0.3);
+}
+
+.form-group input[type="text"]::placeholder {
+    color: #606080;
+}
+
+.form-group select option {
+    background: rgba(20, 20, 40, 0.98);
+    color: #ffffff;
+}
+
+/* Date Inputs */
+.date-inputs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.date-inputs select {
+    text-align: center;
+}
+
+/* Gender Options */
+.gender-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.gender-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gender-option:hover {
+    transform: translateY(-5px);
+    border-color: rgba(243, 156, 18, 0.5);
+}
+
+.gender-option input[type="radio"] {
+    display: none;
+}
+
+.gender-option input[type="radio"]:checked + .gender-icon {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    box-shadow: 0 0 20px rgba(243, 156, 18, 0.5);
+}
+
+.gender-option.male input[type="radio"]:checked + .gender-icon {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+}
+
+.gender-option.female input[type="radio"]:checked + .gender-icon {
+    background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+    box-shadow: 0 0 20px rgba(233, 30, 99, 0.5);
+}
+
+.gender-icon {
+    font-size: 3em;
+    color: #606080;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.gender-option.male .gender-icon i {
+    color: #3498db;
+}
+
+.gender-option.female .gender-icon i {
+    color: #e91e63;
+}
+
+.gender-label {
+    font-size: 1.1em;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Error Messages */
+.error-message {
+    display: block;
+    font-size: 0.85em;
+    color: #e74c3c;
+    margin-top: 8px;
+    min-height: 20px;
+}
+
+/* Form Actions */
+.form-actions {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.btn-continue {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    color: #ffffff;
+    border: none;
+    padding: 18px 60px;
+    font-size: 1.2em;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4);
+}
+
+.btn-continue:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(243, 156, 18, 0.6);
+}
+
+.btn-continue:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Scrollbar */
+.creation-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.creation-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.creation-container::-webkit-scrollbar-thumb {
+    background: rgba(243, 156, 18, 0.5);
+    border-radius: 10px;
+}
+
+.creation-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(243, 156, 18, 0.7);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .creation-container {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .logo h1 {
+        font-size: 1.8em;
+        letter-spacing: 3px;
+    }
+    
+    .form-wrapper {
+        padding: 25px;
+    }
+    
+    .date-inputs {
+        grid-template-columns: 1fr;
+    }
+    
+    .gender-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn-continue {
+        width: 100%;
+        justify-content: center;
+    }
+}

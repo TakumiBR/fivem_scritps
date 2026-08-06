@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nação RP - Criação de Personagem</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app" class="hidden">
+        <!-- Background Overlay -->
+        <div class="background-overlay"></div>
+        
+        <!-- Main Container -->
+        <div class="creation-container">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-user-plus"></i>
+                    <h1>CRIAR PERSONAGEM</h1>
+                </div>
+                <p class="subtitle">Preencha as informações do seu personagem</p>
+            </div>
+            
+            <!-- Form Container -->
+            <div class="form-wrapper">
+                <form id="creationForm" class="creation-form">
+                    <!-- Nome -->
+                    <div class="form-group">
+                        <label for="firstname">
+                            <i class="fas fa-user"></i> Primeiro Nome
+                        </label>
+                        <input 
+                            type="text" 
+                            id="firstname" 
+                            name="firstname" 
+                            placeholder="Ex: João"
+                            maxlength="15"
+                            required
+                        >
+                        <span class="error-message" id="firstnameError"></span>
+                    </div>
+                    
+                    <!-- Sobrenome -->
+                    <div class="form-group">
+                        <label for="lastname">
+                            <i class="fas fa-user-tag"></i> Sobrenome
+                        </label>
+                        <input 
+                            type="text" 
+                            id="lastname" 
+                            name="lastname" 
+                            placeholder="Ex: Silva ou O'Brien"
+                            maxlength="20"
+                            required
+                        >
+                        <span class="error-message" id="lastnameError"></span>
+                    </div>
+                    
+                    <!-- Data de Nascimento -->
+                    <div class="form-group">
+                        <label for="dob">
+                            <i class="fas fa-calendar"></i> Data de Nascimento
+                        </label>
+                        <div class="date-inputs">
+                            <select id="dobDay" name="dobDay" required>
+                                <option value="">Dia</option>
+                            </select>
+                            <select id="dobMonth" name="dobMonth" required>
+                                <option value="">Mês</option>
+                            </select>
+                            <select id="dobYear" name="dobYear" required>
+                                <option value="">Ano</option>
+                            </select>
+                        </div>
+                        <span class="error-message" id="dobError"></span>
+                    </div>
+                    
+                    <!-- Nacionalidade -->
+                    <div class="form-group">
+                        <label for="nationality">
+                            <i class="fas fa-flag"></i> Nacionalidade
+                        </label>
+                        <select id="nationality" name="nationality" required>
+                            <option value="">Selecione...</option>
+                        </select>
+                        <span class="error-message" id="nationalityError"></span>
+                    </div>
+                    
+                    <!-- Gênero -->
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-venus-mars"></i> Gênero
+                        </label>
+                        <div class="gender-options">
+                            <label class="gender-option male">
+                                <input type="radio" name="gender" value="m" required>
+                                <span class="gender-icon">
+                                    <i class="fas fa-mars"></i>
+                                </span>
+                                <span class="gender-label">Masculino</span>
+                            </label>
+                            <label class="gender-option female">
+                                <input type="radio" name="gender" value="f" required>
+                                <span class="gender-icon">
+                                    <i class="fas fa-venus"></i>
+                                </span>
+                                <span class="gender-label">Feminino</span>
+                            </label>
+                        </div>
+                        <span class="error-message" id="genderError"></span>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-continue" id="btnContinue">
+                            <i class="fas fa-arrow-right"></i> CONTINUAR
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
