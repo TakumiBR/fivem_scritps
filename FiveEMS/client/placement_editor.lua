@@ -575,15 +575,18 @@ RegisterNUICallback('creatorGizmoGarageSpawn', function(data, cb)
 end)
 
 RegisterNUICallback('creatorDeleteGarageSpawn', function(data, cb)
-    local point = findDepartmentPoint(data.pointId)
-    local index = tonumber(data.spawnIndex)
-    if not point or not index then cb({ok=false}) return end
-    point.data = point.data or {}
-    point.data.spawns = point.data.spawns or {}
-    table.remove(point.data.spawns, index)
-    point.data.garage_configured = #point.data.spawns > 0
-    TriggerServerEvent('fiveems:server:savePoint', tonumber(data.departmentId), point)
-    cb({ok=true})
+    local ok, result = pcall(function()
+        return lib.callback.await('fiveems:server:deleteGarageSpawn', false,
+            tonumber(data.departmentId), tonumber(data.pointId), tonumber(data.spawnIndex), data.expected)
+    end)
+    if not ok or type(result) ~= 'table' then
+        cb({ok=false, message='Nao foi possivel confirmar a exclusao no servidor. Reabra a garagem antes de tentar novamente.'})
+        return
+    end
+    if result.ok and result.department then
+        TriggerEvent('fiveems:client:departmentData', result.department)
+    end
+    cb({ok=result.ok == true, message=result.message})
 end)
 
 AddEventHandler('fiveems:gizmo:result', function(payloadJson)

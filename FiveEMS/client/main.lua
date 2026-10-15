@@ -433,6 +433,7 @@ RegisterNUICallback('creatorSaveGarage', function(data, cb)
         point.x, point.y, point.z = coords.x, coords.y, coords.z
         point.heading = GetEntityHeading(ped)
     end
+    point.preserveGarageSpawns = true
     point.type = 'garage'
     TriggerServerEvent('fiveems:server:savePoint', tonumber(data.departmentId), point)
     cb({ok=true})

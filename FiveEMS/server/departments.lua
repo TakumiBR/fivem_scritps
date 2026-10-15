@@ -478,6 +478,45 @@ RegisterNetEvent('fiveems:server:saveRank', function(departmentId, rank)
     TriggerClientEvent('fiveems:client:departmentData', src, D.getFull(departmentId))
 end)
 
+-- Mutate the persisted slot list, never a possibly stale client copy of the point.
+lib.callback.register('fiveems:server:deleteGarageSpawn', function(src, departmentId, pointId, index, expected)
+    departmentId, pointId, index = tonumber(departmentId), tonumber(pointId), tonumber(index)
+    local member = Server.getMember(src)
+    if not Server.isAdmin(src) and (not member or tonumber(member.department_id) ~= departmentId
+        or not Server.hasPermission(src, 'department.manage')) then
+        return {ok=false, message=_L('no_permission')}
+    end
+    if not departmentId or not pointId or not index or index % 1 ~= 0 then
+        return {ok=false, message='Vaga invalida.'}
+    end
+    local point = DB.single('SELECT * FROM fiveems_points WHERE id=? AND department_id=? AND type=?',
+        {pointId, departmentId, FiveEMS.PointTypes.GARAGE})
+    if not point then return {ok=false, message='Garagem nao encontrada.'} end
+    local data = DB.jsonDecode(point.data, {})
+    local slots = data.spawns or {}
+    local slot = slots[index]
+    if not slot then return {ok=false, message='Vaga nao encontrada. Reabra a garagem para atualizar.'} end
+    if type(expected) ~= 'table' then return {ok=false, message='Atualize a garagem antes de excluir.'} end
+    for _, key in ipairs({'x','y','z'}) do
+        if not tonumber(slot[key]) or not tonumber(expected[key]) or math.abs(tonumber(slot[key])-tonumber(expected[key])) > 0.001 then
+            return {ok=false, message='A vaga mudou. Reabra a garagem antes de excluir.'}
+        end
+    end
+    table.remove(slots, index)
+    data.spawns = slots
+    data.garage_configured = #slots > 0
+    -- Compare-and-swap prevents overwriting another editor's concurrent save.
+    local affected = DB.update('UPDATE fiveems_points SET data=? WHERE id=? AND department_id=? AND data=?',
+        {DB.jsonEncode(data), pointId, departmentId, point.data})
+    if not affected or affected == 0 then
+        return {ok=false, message='A garagem mudou ou nao foi salva. Reabra e tente novamente.'}
+    end
+    Server.audit(src, 'garage.spawn.delete', 'point', pointId, {spawnIndex=index})
+    local department = D.getFull(departmentId)
+    D.broadcastWorldDepartments(-1)
+    return {ok=true, department=department}
+end)
+
 RegisterNetEvent('fiveems:server:savePoint', function(departmentId, point)
     local src = source
     if not (Server.isAdmin(src) or Server.hasPermission(src, 'department.manage')) then return Server.notify(src, _L('no_permission')) end
@@ -485,6 +524,15 @@ RegisterNetEvent('fiveems:server:savePoint', function(departmentId, point)
     point = point or {}
     local id = tonumber(point.id)
     local creating = id == nil
+    if id and point.preserveGarageSpawns and point.type == FiveEMS.PointTypes.GARAGE then
+        local current = DB.single('SELECT data FROM fiveems_points WHERE id=? AND department_id=? AND type=?',
+            {id, departmentId, FiveEMS.PointTypes.GARAGE})
+        if not current then return Server.notify(src, 'Garagem nao encontrada.') end
+        local saved = DB.jsonDecode(current.data, {})
+        point.data = point.data or {}
+        point.data.spawns = saved.spawns or {}
+        point.data.garage_configured = #point.data.spawns > 0
+    end
     local data = DB.jsonEncode(point.data or {})
     if id then
         DB.update([[

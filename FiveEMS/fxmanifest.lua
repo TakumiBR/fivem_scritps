@@ -3,7 +3,7 @@ game 'gta5'
 name 'FiveEMS'
 author "Sasori's Development / FiveEMS"
 description 'FiveEMS integrado nativamente a framework FivePD SP: character, records, inventory, injuries, death, admin e UI.'
-version '0.5.1c'
+version '0.5.1d'
 ui_page 'web/index.html'
 
 shared_scripts {

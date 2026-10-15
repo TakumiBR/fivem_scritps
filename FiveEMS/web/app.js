@@ -521,7 +521,28 @@ function pageDepartmentCreator(){
         saveGarageInfo.onclick=()=>{const kind=garageEditInteraction.value;const nextInteraction={kind};if(kind==='marker'){nextInteraction.marker_type=n(document.getElementById('garageMarkerType')?.value,36);}else if(kind==='ped'){nextInteraction.ped_model=document.getElementById('garagePedModel')?.value||interaction.ped_model||'s_m_m_paramedic_01';if(interaction.ped_transform)nextInteraction.ped_transform={...interaction.ped_transform};}const updatedData={...gd,garage_type:garageEditType.value,preview_model:garagePreviewModel.value,blip:{enabled:true,sprite:n(garageEditBlip.value,225),color:n(garageEditColor.value,3),scale:n(garageEditScale.value,.75)},interaction:nextInteraction,spawns};nui('creatorSaveGarage',{departmentId:d.id,useCurrent:garageUseCurrent.checked,point:{...selectedGarage,label:garageEditName.value,type:'garage',data:updatedData}});};
         addGarageSpawn.onclick=()=>nui('creatorGizmoGarageSpawn',{departmentId:d.id,pointId:selectedGarage.id,previewModel:garagePreviewModel.value});
         pane.querySelectorAll('[data-edit-gspawn]').forEach(b=>b.onclick=()=>nui('creatorGizmoGarageSpawn',{departmentId:d.id,pointId:selectedGarage.id,spawnIndex:Number(b.dataset.editGspawn),previewModel:garagePreviewModel.value}));
-        pane.querySelectorAll('[data-del-gspawn]').forEach(b=>b.onclick=()=>{if(confirm('Excluir esta vaga de spawn?'))nui('creatorDeleteGarageSpawn',{departmentId:d.id,pointId:selectedGarage.id,spawnIndex:Number(b.dataset.delGspawn)});});
+        pane.querySelectorAll('[data-del-gspawn]').forEach(b=>b.onclick=()=>{
+          const index=Number(b.dataset.delGspawn), expected=spawns[index-1];
+          const modal=document.createElement('div');modal.className='garage-slot-modal';
+          modal.innerHTML=`<div class="creator-modal" role="dialog" aria-modal="true" aria-labelledby="slotDeleteTitle"><div class="modal-head"><div><span class="section-kicker">${esc(selectedGarage.label||'Garagem')}</span><h2 id="slotDeleteTitle">Excluir vaga ${index}?</h2></div><button class="modal-x" data-cancel aria-label="Fechar">×</button></div><div class="creator-note"><p>Somente esta vaga sera removida. A garagem, as outras vagas e a frota serao mantidas.</p></div><p data-error role="alert"></p><div class="modal-actions"><button class="btn" data-cancel>Cancelar</button><button class="btn danger" data-confirm>Excluir vaga</button></div></div>`;
+          frame.appendChild(modal);
+          modal.querySelectorAll('[data-cancel]').forEach(button=>button.onclick=()=>modal.remove());
+          const confirmButton=modal.querySelector('[data-confirm]');
+          confirmButton.onclick=async()=>{
+            confirmButton.disabled=true;confirmButton.textContent='Excluindo...';
+            modal.querySelectorAll('[data-cancel]').forEach(button=>button.disabled=true);
+            try{
+              const result=await nui('creatorDeleteGarageSpawn',{departmentId:d.id,pointId:selectedGarage.id,spawnIndex:index,expected});
+              if(!result?.ok)throw new Error(result?.message||'O servidor nao confirmou a exclusao.');
+              modal.remove();toast('Vaga excluida.');
+            }catch(error){
+              modal.querySelector('[data-error]').textContent=error.message;
+              confirmButton.disabled=false;confirmButton.textContent='Tentar novamente';
+              modal.querySelectorAll('[data-cancel]').forEach(button=>button.disabled=false);
+            }
+          };
+          modal.querySelector('[data-cancel]').focus();
+        });
       }
     }
     if(state.creatorTab==='ranks'){
