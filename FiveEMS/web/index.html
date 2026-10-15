@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FiveEMS</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="root" class="hidden">
+    <div id="deviceFrame" class="device computer">
+      <div class="device-topbar">
+        <div class="brand"><span class="brand-mark">✚</span><strong class="brand-word"><span class="brand-five">Five</span><span class="brand-ems">EMS</span></strong><span id="contextBadge">EMS OS</span></div>
+        <div class="top-actions"><span id="clock"></span><button id="closeBtn" aria-label="Fechar">×</button></div>
+      </div>
+      <div class="device-body">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="content" class="content"></main>
+      </div>
+      <div id="touchFinger" class="touch-indicator hidden" aria-hidden="true"><div class="touch-dot"></div><div class="touch-ring"></div></div>
+    </div>
+    <div id="monitorOverlay" class="monitor-overlay hidden" aria-live="polite"></div>
+    <div id="toastHost" class="toast-host"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

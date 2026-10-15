@@ -1,0 +1,71 @@
+FiveEMS = FiveEMS or {}
+
+FiveEMS.Catalog = {
+    equipment = {
+        {name='trauma_shears', label='Tesoura de trauma', category='assessment', stock=20},
+        {name='stethoscope', label='Estetoscopio', category='assessment', stock=20},
+        {name='bp_cuff', label='Esfigmomanometro', category='assessment', stock=20},
+        {name='pulse_oximeter', label='Oximetro de pulso', category='assessment', stock=20},
+        {name='lifepak15_monitor', label='LIFEPAK 15 - Monitor multiparametrico portatil', category='monitoring', stock=8, advanced=false},
+        {name='medical_bag', label='Bolsa medica de atendimento', category='field_equipment', stock=12, advanced=false},
+        {name='lucas2_device', label='LUCAS 2 - Compressor toracico', category='resuscitation_equipment', stock=4, advanced=true},
+        {name='lucas3_device', label='LUCAS 3 - Compressor toracico', category='resuscitation_equipment', stock=4, advanced=true},
+        {name='combi_carrier', label='CombiCarrier II', category='immobilization', stock=6, advanced=false},
+        {name='thermometer', label='Termometro', category='assessment', stock=20},
+        {name='flashlight_medical', label='Lanterna de avaliacao', category='assessment', stock=20},
+        {name='gauze', label='Gaze esteril', category='bleeding', stock=120},
+        {name='pressure_bandage', label='Curativo compressivo', category='bleeding', stock=80},
+        {name='wound_pack', label='Gaze para empacotamento', category='bleeding', stock=60},
+        {name='tourniquet', label='Torniquete', category='bleeding', stock=40},
+        {name='chest_seal', label='Selo toracico', category='respiratory', stock=40},
+        {name='c_collar', label='Colar cervical', category='immobilization', stock=40},
+        {name='splint', label='Tala', category='immobilization', stock=50},
+        {name='opa', label='Canula orofaringea', category='airway', stock=30},
+        {name='suction_kit', label='Aspirador de vias aereas', category='airway', stock=12},
+        {name='bvm', label='Bolsa-valvula-mascara', category='airway', stock=15},
+        {name='oxygen_mask', label='Mascara de oxigenio', category='oxygen', stock=40},
+        {name='nasal_cannula', label='Canula nasal', category='oxygen', stock=40},
+        {name='non_rebreather', label='Mascara nao reinalante', category='oxygen', stock=30},
+        {name='iv_kit', label='Kit de acesso venoso', category='circulation', stock=40},
+        {name='defib_pads', label='Pas adesivas do desfibrilador', category='cardiac', stock=30},
+        {name='thermal_blanket', label='Manta termica', category='exposure', stock=40},
+        {name='burn_dressing', label='Curativo para queimadura', category='burn', stock=30},
+    },
+    medications = {
+        {name='saline', label='Solucao cristalóide', category='fluid', stock=60},
+        {name='epinephrine', label='Epinefrina', category='resuscitation', stock=30, advanced=true},
+        {name='naloxone', label='Naloxona', category='antidote', stock=20, advanced=true},
+        {name='atropine', label='Atropina', category='cardiac', stock=20, advanced=true},
+        {name='analgesic', label='Analgesico protocolar', category='pain', stock=30, advanced=true},
+        {name='hydroxocobalamin', label='Hidroxocobalamina', category='hazmat', stock=8, advanced=true},
+        {name='pralidoxime', label='Pralidoxima', category='hazmat', stock=8, advanced=true},
+        {name='sodium_thiosulfate', label='Tiossulfato de sodio', category='hazmat', stock=8, advanced=true},
+    },
+    csi = {
+        {name='csi_gloves', label='Luvas de nitrila', category='ppe', stock=100},
+        {name='csi_camera', label='Camera pericial', category='documentation', stock=10},
+        {name='csi_evidence_bag', label='Envelope/embalagem de evidencia', category='collection', stock=100},
+        {name='csi_swab_kit', label='Kit de swab', category='dna', stock=80},
+        {name='csi_uv_light', label='Luz forense', category='inspection', stock=12},
+        {name='csi_ruler', label='Escala metrica pericial', category='documentation', stock=20},
+        {name='csi_tweezers', label='Pinca pericial', category='collection', stock=20},
+        {name='csi_fingerprint_kit', label='Kit papiloscopico', category='fingerprint', stock=20},
+    }
+}
+
+FiveEMS.Treatments = {
+    -- durationMs e progressLabel sao usados pelo fluxo fisico via ox_target.
+    -- O consumo real continua sendo validado apenas no servidor ao concluir a acao.
+    direct_pressure = {label='Compressao direta', progressLabel='Mantendo compressao direta...', item=nil, skill='basic', bleedingMultiplier=0.55, requiresInjury=true, durationMs=4500, xp=true},
+    wound_pack = {label='Empacotamento de ferida', progressLabel='Empacotando a ferida...', item='wound_pack', skill='basic', bleedingMultiplier=0.35, requiresInjury=true, durationMs=6500, xp=true},
+    tourniquet = {label='Aplicar torniquete', progressLabel='Aplicando torniquete...', item='tourniquet', skill='basic', bleedingMultiplier=0.08, extremityOnly=true, requiresInjury=true, durationMs=5200, xp=true},
+    pressure_bandage = {label='Curativo compressivo', progressLabel='Aplicando curativo compressivo...', item='pressure_bandage', skill='basic', bleedingMultiplier=0.45, requiresInjury=true, durationMs=5200, xp=true},
+    chest_seal = {label='Selo toracico', progressLabel='Aplicando selo toracico...', item='chest_seal', skill='basic', respiratory=true, requiresInjury=true, durationMs=4800, xp=true},
+    splint = {label='Imobilizar membro', progressLabel='Imobilizando o membro...', item='splint', skill='basic', extremityOnly=true, requiresInjury=true, durationMs=7000, xp=true},
+    c_collar = {label='Colar cervical', progressLabel='Aplicando colar cervical...', item='c_collar', skill='basic', region='neck', durationMs=5200, xp=true},
+    airway_opa = {label='Canula orofaringea', progressLabel='Posicionando canula orofaringea...', item='opa', skill='advanced', airway=true, durationMs=4500, xp=true},
+    suction = {label='Aspirar via aerea', progressLabel='Aspirando via aerea...', item='suction_kit', skill='basic', airway=true, durationMs=6500, xp=true},
+    iv_access = {label='Obter acesso venoso', progressLabel='Obtendo acesso venoso...', item='iv_kit', skill='advanced', durationMs=7200, xp=true},
+    thermal_blanket = {label='Aplicar manta termica', progressLabel='Aplicando manta termica...', item='thermal_blanket', skill='basic', temperature=true, durationMs=3800, xp=true},
+    burn_dressing = {label='Cobrir queimadura', progressLabel='Cobrindo a queimadura...', item='burn_dressing', skill='basic', burn=true, requiresInjury=true, durationMs=6500, xp=true},
+}
